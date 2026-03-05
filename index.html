@@ -1,17 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-    <title>Chọn Dịch Vụ</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chọn Dịch Vụ - UG System</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+        }
         
         :root {
             --bg-color: #f5f5f7;
             --text-color: #1d1d1f;
             --card-bg: #ffffff;
             --accent-1: #007aff;
-            --shadow: rgba(0,0,0,0.1);
+            --shadow: rgba(0,0,0,0.08);
+            --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
         
         @media (prefers-color-scheme: dark) {
@@ -20,96 +27,116 @@
                 --text-color: #f5f5f7;
                 --card-bg: #1c1c1e;
                 --accent-1: #0a84ff;
-                --shadow: rgba(255,255,255,0.1);
+                --shadow: rgba(255,255,255,0.05);
             }
         }
         
-        html, body { 
+        body { 
             width: 100%;
-            height: 100%; 
+            min-height: 100vh; 
             background: var(--bg-color);
             color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--font-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            line-height: 1.5;
         }
         
         #menu {
-            min-height: 100vh;
+            width: 100%;
+            max-width: 500px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
         }
         
         .menu-title {
-            font-size: 32px;
+            font-size: clamp(24px, 8vw, 32px);
             font-weight: 700;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             text-align: center;
+            letter-spacing: -0.5px;
         }
         
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: 1fr;
             gap: 20px;
             width: 100%;
-            max-width: 600px;
         }
         
         .service-card {
             background: var(--card-bg);
-            border-radius: 20px;
-            padding: 35px 30px;
+            border-radius: 24px;
+            padding: 28px 24px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px var(--shadow);
-            border: 2px solid transparent;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 24px var(--shadow);
+            border: 1px solid rgba(128, 128, 128, 0.1);
             text-align: center;
             text-decoration: none;
             color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
         }
         
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px var(--shadow);
-            border-color: var(--accent-1);
+        .service-card:active {
+            transform: scale(0.97);
+            background: var(--card-bg);
+            opacity: 0.9;
+        }
+
+        @media (min-width: 768px) {
+            .service-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 20px 40px var(--shadow);
+                border-color: var(--accent-1);
+            }
         }
         
         .service-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 18px;
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
-            margin: 0 auto 20px auto;
+            font-size: 30px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
         
-        .service-card:nth-child(1) .service-icon {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /* Gradient Icons */
+        .card-ug16h .service-icon {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
         }
         
-        .service-card:nth-child(2) .service-icon {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        .card-buyug .service-icon {
+            background: linear-gradient(135deg, #ec4899 0%, #ef4444 100%);
         }
         
         .service-name {
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         
         .service-desc {
             font-size: 14px;
             opacity: 0.6;
+            max-width: 80%;
         }
         
-        /* Animation */
-        @keyframes fadeInUp {
+        /* Animations */
+        @keyframes reveal {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -118,12 +145,20 @@
         }
         
         .service-card {
-            animation: fadeInUp 0.6s ease forwards;
+            animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
         }
         
-        .service-card:nth-child(1) { animation-delay: 0.1s; }
-        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .card-ug16h { animation-delay: 0.1s; }
+        .card-buyug { animation-delay: 0.2s; }
+
+        /* Footer info */
+        .footer-note {
+            margin-top: 30px;
+            font-size: 12px;
+            opacity: 0.4;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -132,19 +167,29 @@
         
         <div class="services-grid">
             <!-- UG 16H -->
-            <a href="https://ping-monitor--manikohi2817.replit.app" class="service-card">
+            <a href="https://ping-monitor--manikohi2817.replit.app" class="service-card card-ug16h">
                 <div class="service-icon">⏱️</div>
                 <div class="service-name">UG 16 Giờ</div>
-                <div class="service-desc">Theo dõi UGPhone 16h</div>
+                <div class="service-desc">Hệ thống theo dõi trạng thái UGPhone trực tuyến</div>
             </a>
             
             <!-- Buy UG -->
-            <a href="https://aselhiczu2n2s.ok.kimi.link" class="service-card">
+            <a href="https://aselhiczu2n2s.ok.kimi.link" class="service-card card-buyug">
                 <div class="service-icon">📱</div>
-                <div class="service-name">Buy UG</div>
-                <div class="service-desc">Mua tài khoản UGPhone</div>
+                <div class="service-name">Mua Tài Khoản</div>
+                <div class="service-desc">Cung cấp tài khoản UGPhone uy tín, giá rẻ</div>
             </a>
         </div>
+
+        <div class="footer-note">© 2026 Hung Nguyenn</div>
     </div>
+
+    <script>
+        // Thêm hiệu ứng nhấn nhẹ cho Mobile
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('touchstart', () => {});
+        });
+    </script>
 </body>
-  </html>
+</html>
+
